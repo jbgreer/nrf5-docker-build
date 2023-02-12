@@ -17,12 +17,14 @@ Docker environment for building nRF5 firmware.
 ```
 ] docker build -t jbgreer/nrf5-v17.1.0 .
 ```
+#### where jbgreer/nrf5-v17.1.0 is a tag.  Somewhat arbitrary, unless you want to push this to ghrc.io or the like.
 
 ### Run 
 #### Drops you into a shell in the container
 ```
 ] docker run --name nrf5-v17.1.0 -it jbgreer/nrf5-v17.1.0 /bin/bash
 ```
+#### where nrf5-v17.1.0 is an arbitrary name and jbgreer/nrf5-v17.1.0 is the tag from the build step
 
 ### Use container
 #### In container, change to an existing example and build it.
@@ -30,6 +32,7 @@ Docker environment for building nRF5 firmware.
 $ cd /nrf5/nRF5_SDK_17.1.0/examples/ble_peripheral/ble_app_template/pca10056e/s112/armgcc
 $ make
 ```
+#### In the container the SDK is parked under /nrf5
 
 ### Copy output files to Host
 #### On host, copy files from container to local directory
@@ -37,8 +40,10 @@ $ make
 ] docker cp nrf5-v17.1.0:/nrf5/nRF5_SDK_17.1.0/examples/ble_peripheral/ble_app_template/pca10056e/s112/armgcc/_build/nrf52811_xxaa.hex .
 ] docker cp nrf5-v17.1.0:/nrf5/nRF5_SDK_17.1.0/components/softdevice/s112/hex/s112_nrf52_7.2.0_softdevice.hex .
 ```
+#### For consistency, copy both the softdevice and output file from the build process
 
 ### Flash output files to nRF5 development board
+#### Not all steps are required everytime.
 ```
 ] nrfjprog -f NRF52 --eraseall
 ] nrfjprog -f NRF52 --program s112_nrf52-7.2.0_softdevice.hex --chiperase --verify
